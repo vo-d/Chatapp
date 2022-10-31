@@ -9,6 +9,10 @@
     <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
 
     <form action="/createRoom" method="post" id="form1" class="hide">
+
+        <label for="user">Username</label>
+        <input type="text" name="user" id="user_id"><br>
+
         <label for="input">Create Room Name</label>
         <input type="text" name="input" id="createInput">
         <input type="submit" value = "Submit">
@@ -40,7 +44,7 @@
             const formData = new FormData(e.target)
             const fomrProps = Object.fromEntries(formData)
             const jsonString = JSON.stringify(fomrProps)
-
+            
             // Create XMLhttp request
             let request = new XMLHttpRequest();
             request.open("POST", "/createRoom")

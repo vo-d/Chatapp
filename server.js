@@ -7,15 +7,27 @@ const express = require('express');
 const fs = require("fs");
 const path = require("path")
 const nunjuck = require('nunjucks')
-
+const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 
 const app = express();
 const port = 5000;
 
 //put our mongodb uri here
-const mongoUri = ""
+const mongoUri = "mongodb+srv://rob:tukikrna@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
+const client = new mongodb.MongoClient(mongoUri);
 
+async function myfunction(username){
+    await client.connect();
+    const myCol = await client.db('express').collection("users");
+    const doc = await myCol.findOne({user:username})
+    if(doc === null){
+        let newUser = {user:username}
+        let result = await myCol.insertOne(newUser)
+        console.log(result)
+    }
+    console.log(doc)
+}
 
 const wsInstance = expressWs(app)
 
@@ -40,8 +52,11 @@ app.get("/chatroom/:name", (req, res)=>{
 })
 
 // handle the post request of createRoom, and send data back to the server side
-app.post("/createRoom", (req, res)=>{
+app.post("/createRoom", async (req, res)=>{
+    
     req.body.message = "true";
+    let user = req.body.user;
+    await myfunction(user)
     res.status(200).send(req.body)
 })
 
@@ -49,7 +64,7 @@ app.post("/formhandler2", (req, res)=>{
 
 })
 
-app.ws("/chatroom/1", (ws, req)=>{
+app.ws("/chatroom/1", async (ws, req)=>{
     //get websocket server
     const aWss = wsInstance.getWss("/chatroom/1");
     // when websocket server receive data
