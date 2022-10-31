@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "head.njk" %}
+<body>
+    <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
+    
+    <button id="createRoom" onclick ="clickMe1()">Create Room</button>
+
+    <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
+
+    <form action="/createRoom" method="post" id="form1" class="hide">
+        <label for="input">Create Room Name</label>
+        <input type="text" name="input" id="createInput">
+        <input type="submit" value = "Submit">
+    </form>
+
+    <form action="/joinRoom" method="post" id="form2" class="hide">
+        <label for="input">Enter Room Link</label>
+        <input type="text" name="input" id="createInput">
+        <input type="submit" value = "Submit">
+    </form>
+
+    <a id="chatRoomLink"></a>
+
+    <script>
+        var form1 = document.getElementById("form1");
+        var form2 = document.getElementById("form2");
+        function clickMe1() {
+            form1.classList.toggle("hide");
+            form1.classList.toggle("show");
+        }
+        function clickMe2() {
+            form2.classList.toggle("hide");
+            form2.classList.toggle("show");
+        }
+
+        // This form is to create a new chatroom
+        form1.onsubmit = (e)=>{
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const fomrProps = Object.fromEntries(formData)
+            const jsonString = JSON.stringify(fomrProps)
+
+            // Create XMLhttp request
+            let request = new XMLHttpRequest();
+            request.open("POST", "/createRoom")
+            request.setRequestHeader('Content-Type', 'application/json')
+            request.send(jsonString)
+
+            // receive message back from the server
+            request.addEventListener("load", ()=>{
+                let response = JSON.parse(request.responseText);
+                let link = document.getElementById("chatRoomLink")
+                link.innerHTML = "Press to enter the chat room"
+                link.setAttribute("href", `http://localhost:5000/chatroom/${response.input}`)
+            })
+        }
+
+        // This form is to create a new chatroom, but we will work on this later
+        form2.onsubmit = (e)=>{
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const fomrProps = Object.fromEntries(formData)
+            const jsonString = JSON.stringify(fomrProps)
+
+            let request = new XMLHttpRequest();
+            request.open("POST", "/createRoom")
+            request.setRequestHeader('Content-Type', 'application/json')
+            request.send(jsonString)
+        }
+    </script>
+</body>
+
+</html>
+
+<style>
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>

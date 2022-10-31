@@ -1,0 +1,56 @@
+<!--
+    group members:
+Dai Dai Vo - 3129620
+Robinpreet Singh - 3127986
+Brody Oberdorfer - 3135170
+--> 
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include "head.njk" %}
+<body>
+    <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
+    <textarea readonly id="chatbox" style="display:block; width: 100%; height: 150px; margin-left: auto; margin-right: auto;">Chat goes here</textarea><br>
+
+    <form id="myForm">
+        <!-- this is the message part -->
+        <input type="text" name="message" value = "" id = "message">
+        <label for ="name">Your Name:</label>
+        <input type="text" name="name" value = "" id = "name">
+        <input type="submit" value = "Send">
+    </form>
+
+    <script>
+
+        //create new websocket
+        const ws = new WebSocket("ws:localhost:5000/chatroom/1")
+    
+        const form = document.forms['myForm'];
+    
+        // whenever submit the form, ws send data to the server
+        form.onsubmit = ((e)=>{
+            //prevent the page reload
+            e.preventDefault();
+            // create an iterable of key-value pair
+            const formdata = new FormData(form);
+            // convert iterable to an object
+            const dataOject = Object.fromEntries(formdata);
+            // create object of only name and message
+            const sendMessage = {name: dataOject.name, message: dataOject.message}
+            // convert object to string
+            const sendString = JSON.stringify(sendMessage)
+            // send string data to websocket server
+            ws.send(sendString)
+        })
+    
+        // when receive data sent from the client
+        ws.onmessage = ((e)=>{
+            // convert the data into object
+            const info = JSON.parse(e.data)
+            // print out to the chatbox
+            document.getElementById("chatbox").value += "\n" + info.name + " said: " + info.message
+        })
+    </script>
+</body>
+
+</html>
