@@ -12,7 +12,9 @@ const expressWs = require("express-ws")
 
 const app = express();
 const port = 5000;
-const uri = "mongodb+srv://vo-d3129620:09022002@cluster0.ksuggsl.mongodb.net/?retryWrites=true&w=majority"
+
+//put our mongodb uri here
+const mongoUri = ""
 
 
 const wsInstance = expressWs(app)
@@ -30,14 +32,16 @@ app.get("/", (req, res)=>{
     res.status(200).render("main.njk", {title: "main"})
 })
 
+// this will go to chatbox.njk. Which will create websocket chatroom if not exist, or join that chatroom if exist
 app.get("/chatroom/:name", (req, res)=>{
     let {name} = req.params;
     console.log(name)
     res.status(200).render("chatbox.njk", {title: `${name}`})
 })
 
+// handle the post request of createRoom, and send data back to the server side
 app.post("/createRoom", (req, res)=>{
-
+    req.body.message = "true";
     res.status(200).send(req.body)
 })
 

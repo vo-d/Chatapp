@@ -51,6 +51,11 @@
             request.addEventListener("load", ()=>{
                 let response = JSON.parse(request.responseText);
                 let link = document.getElementById("chatRoomLink")
+
+                // Brody code
+                //if else to send room name to the server side when not available, and throw error if available in the database
+
+
                 link.innerHTML = "Press to enter the chat room"
                 link.setAttribute("href", `http://localhost:5000/chatroom/${response.input}`)
             })
