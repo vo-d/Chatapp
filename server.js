@@ -14,16 +14,28 @@ const app = express();
 const port = 5000;
 
 //put our mongodb uri here
-const mongoUri = "mongodb+srv://rob:tukikrna@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
+const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(mongoUri);
 
-async function myfunction(username){
+async function check_add_name(username){
     await client.connect();
     const myCol = await client.db('express').collection("users");
     const doc = await myCol.findOne({user:username})
     if(doc === null){
         let newUser = {user:username}
         let result = await myCol.insertOne(newUser)
+        console.log(result)
+    }
+    console.log(doc)
+}
+
+async function check_add_chatroomName(chatroomName){
+    await client.connect();
+    const myCol = await client.db('express').collection("chatroomName");
+    const doc = await myCol.findOne({chatroom:chatroomName})
+    if(doc === null){
+        let newChatroom = {chatroom:chatroomName}
+        let result = await myCol.insertOne(newChatroom)
         console.log(result)
     }
     console.log(doc)
@@ -56,7 +68,9 @@ app.post("/createRoom", async (req, res)=>{
     
     req.body.message = "true";
     let user = req.body.user;
-    await myfunction(user)
+    let roomName = req.body.roomName;
+    check_add_name(user)
+    check_add_chatroomName(roomName)
     res.status(200).send(req.body)
 })
 

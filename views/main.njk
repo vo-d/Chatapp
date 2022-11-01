@@ -14,13 +14,13 @@
         <input type="text" name="user" id="user_id"><br>
 
         <label for="input">Create Room Name</label>
-        <input type="text" name="input" id="createInput">
+        <input type="text" name="roomName" id="createInput">
         <input type="submit" value = "Submit">
     </form>
 
     <form action="/joinRoom" method="post" id="form2" class="hide">
         <label for="input">Enter Room Link</label>
-        <input type="text" name="input" id="createInput">
+        <input type="text" name="roomName" id="createInput">
         <input type="submit" value = "Submit">
     </form>
 
@@ -61,7 +61,7 @@
 
 
                 link.innerHTML = "Press to enter the chat room"
-                link.setAttribute("href", `http://localhost:5000/chatroom/${response.input}`)
+                link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
             })
         }
 
