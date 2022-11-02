@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "head.njk" %}
+    <ul>
+        {% for contributor in contributors %}
+            <li>{{contributor.name}}: {{contributor.role}}</li>
+        {% endfor %}
+    </ul>
+</html>
