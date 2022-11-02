@@ -20,10 +20,10 @@ Brody Oberdorfer - 3135170
         <input type="submit" value = "Send">
     </form>
 
-    <form id="myForm1"  method='post' action="/chatroom/fileUpload" enctype="multipart/form-data">
+    {# <form id="myForm1"  method='post' action="/chatroom/fileUpload" enctype="multipart/form-data">
         <input type="file" name="file" id="file">
         <input type="submit" value = "Send">
-    </form>
+    </form> #}
     
     <script>
         // Robin part
@@ -44,7 +44,7 @@ Brody Oberdorfer - 3135170
         const ws = new WebSocket(`ws:localhost:5000/chatroom/${roomName}`)
     
         const form = document.forms['myForm'];
-        const form1 = document.forms['myForm1'];
+        /* {# const form1 = document.forms['myForm1']; #} */
 
         // whenever submit the form, ws send data to the server
         form.onsubmit = ((e)=>{
