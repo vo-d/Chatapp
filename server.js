@@ -14,15 +14,15 @@ const serveIndex = require('serve-index')
 const app = express();
 const port = 5000;
 
-app.use("/files", serveIndex(__dirname+"views", {icons: true}))
-app.use('/public', express.static(__dirname+"/views"))
+app.use("/files", serveIndex(__dirname+"/views", {icons: true}))
+app.use('/files', express.static(__dirname+"/views"))
 app.use(express.urlencoded({extended:true}))
 
-// app.get('/files')
 //put our mongodb uri here
 const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(mongoUri);
 
+//For now we are using this function. However we are goona bring the user functionality after tyhe mid term
 async function check_add_name(username){
     await client.connect();
     const myCol = await client.db('express').collection("users");
@@ -30,9 +30,15 @@ async function check_add_name(username){
     if(doc === null){
         let newUser = {user:username}
         let result = await myCol.insertOne(newUser)
-        console.log(result)
+        console.log("User",result)
+        req.body.message = true;
+        res.status(200).send(req.body)
     }
-    console.log(doc)
+    else{
+        console.log("User already exsists")
+        req.body.message = "User exsists"
+        res.send(req.body)
+    }
 }
 
 async function check_add_chatroomName(chatroomName, req, res){
@@ -77,7 +83,7 @@ app.get("/terms&conditions", (req, res)=>{
     let directory = path.resolve(__dirname + "/views/term&condition.txt")
     res.download(decodeURI(directory), (err)=>{
         console.log(err)
-})
+    })
 })
 
 // this will go to chatbox.njk. Which will create websocket chatroom if not exist, or join that chatroom if exist
@@ -115,9 +121,11 @@ app.post('/roomName', (req, res)=>{
 
 })
 
-app.ws(`/chatroom/1`, async (ws, req)=>{
+app.ws(`/chatroom/:name`, async (ws, req)=>{
     //get websocket server
-    const aWss = wsInstance.getWss(`/chatroom/1`);
+    let room = req.params.name
+    console.log("r",room)
+    const aWss = wsInstance.getWss(`/chatroom/${room}`);
     // when websocket server receive data
     ws.on("message", (msg)=>{
         // send data back to every client
@@ -132,7 +140,8 @@ app.ws(`/chatroom/1`, async (ws, req)=>{
         const myCol = await client.db('express').collection("chatroomName");
         //Room holds the value of the ws name that was created and added to database
         let doc = await myCol.findOne({chatroom:room})
-        await myCol.findOneAndDelete(doc)
+        console.log(doc)
+        await myCol.findOneAndDelete({chatroom:room})
     })
 
 })
