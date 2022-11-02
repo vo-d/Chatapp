@@ -67,6 +67,19 @@ app.get("/", (req, res)=>{
     res.status(200).render("main.njk", {title: "main"})
 })
 
+app.get("/credit", (req, res)=>{
+    let contributorList = require(path.resolve(__dirname + "/views/contributor.json"))
+    console.log(contributorList)
+    res.status(200).render("contributor.njk", {contributors: contributorList, title: "credit"})
+})
+
+app.get("/terms&conditions", (req, res)=>{
+    let directory = path.resolve(__dirname + "/views/term&condition.txt")
+    res.download(decodeURI(directory), (err)=>{
+        console.log(err)
+})
+})
+
 // this will go to chatbox.njk. Which will create websocket chatroom if not exist, or join that chatroom if exist
 
 app.get("/chatroom/:name", async (req, res)=>{
