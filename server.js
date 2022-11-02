@@ -107,21 +107,20 @@ app.post("/formhandler2", (req, res)=>{
 })
 
 
-app.post('/roomName', (req, res)=>{
-    let room = Object.keys(req.body)[0];
-    app.ws(`/chatroom/${room}`, async (ws, req)=>{
-        //get websocket server
-        const aWss = wsInstance.getWss(`/chatroom/${room}`);
-        // when websocket server receive data
-        ws.on("message", (msg)=>{
-            // send data back to every client
-            aWss.clients.forEach((client)=>{
-                client.send(msg)
-            })
+app.ws(`/chatroom/:room`, async (ws, req)=>{
+    let {room} = req.params;
+    //get websocket server
+    const aWss = wsInstance.getWss(`/chatroom/${room}`);
+    // when websocket server receive data
+    ws.on("message", (msg)=>{
+        // send data back to every client
+        aWss.clients.forEach((client)=>{
+            client.send(msg)
         })
     })
-    
 })
+    
+
 
 
 let mimeLookup = {
