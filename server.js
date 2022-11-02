@@ -9,14 +9,16 @@ const path = require("path")
 const nunjuck = require('nunjucks')
 const mongodb = require('mongodb')
 const expressWs = require("express-ws")
+const serveIndex = require('serve-index')
 
 const app = express();
 const port = 5000;
 
-
-app.use('/', express.static(__dirname))
+app.use("/files", serveIndex(__dirname+"views", {icons: true}))
+app.use('/public', express.static(__dirname+"/views"))
 app.use(express.urlencoded({extended:true}))
 
+// app.get('/files')
 //put our mongodb uri here
 const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(mongoUri);
@@ -75,7 +77,7 @@ app.get("/chatroom/:name", async (req, res)=>{
     let doc = await myCol.findOne({chatroom:name})
     if(doc === null){
         // we will send custom 404 here
-        res.status(404).send("The page does not exsists")
+        res.status(404).sendFile(__dirname + "/views/404.html")
     }else{
         res.status(200).render("chatbox.njk", {title: `${name}`})
     }
@@ -95,6 +97,7 @@ app.post("/formhandler2", (req, res)=>{
 
 
 app.post('/roomName', (req, res)=>{
+    // Name of the room that user requested
     let room = Object.keys(req.body)[0];
     app.ws(`/chatroom/${room}`, async (ws, req)=>{
         //get websocket server
@@ -106,6 +109,16 @@ app.post('/roomName', (req, res)=>{
                 client.send(msg)
             })
         })
+
+        // closing the websocket and deleting the room from database
+        ws.addEventListener('close', async (event) => {
+            await client.connect();
+            const myCol = await client.db('express').collection("chatroomName");
+            //Room holds the value of the ws name that was created and added to database
+            let doc = await myCol.findOne({chatroom:room})
+            await myCol.findOneAndDelete(doc)
+        })
+    
     })
     
 })
@@ -150,6 +163,11 @@ app.post("/chatroom/fileUpload",(req, res)=>{
         res.send(response)
     })
     form.parse(req)
+})
+
+app.use((req,res) =>{
+    res.status(404).sendFile(__dirname + "/views/404.html")
+    
 })
 
 app.listen(port)
