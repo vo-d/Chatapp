@@ -122,16 +122,18 @@ app.post("/formhandler2", (req, res)=>{
 
 })
 
-let roomName = ''
-app.post('/roomName', (req, res)=>{
-    // Name of the room that user requested
-     roomName = Object.keys(req.body)[0];
+// Catching fetch request for the room name
+// let roomName = ''
+// app.post('/roomName', (req, res)=>{
+//     // Name of the room that user requested
+//      roomName = Object.keys(req.body)[0];
 
-})
+// })
 
-app.ws(`/chatroom/1`, async (ws, req)=>{
+app.ws(`/chatroom/:room`, async (ws, req)=>{
+    let {room} = req.params;
     //get websocket server
-    const aWss = wsInstance.getWss(`/chatroom/1`);
+    const aWss = wsInstance.getWss(`/chatroom/${room}`);
     // when websocket server receive data
     ws.on("message", (msg)=>{
         // send data back to every client
@@ -147,17 +149,17 @@ app.ws(`/chatroom/1`, async (ws, req)=>{
             closeWss(room);
         }
     })
-    
-
-    /* ws.addEventListener('close', async (event) => {
-        await client.connect();
-        const myCol = await client.db('express').collection("chatroomName");
-        //Room holds the value of the ws name that was created and added to database
-        let doc = await myCol.findOne({chatroom:room})
-        await myCol.findOneAndDelete(doc)
-    })
-
 })
+
+//      ws.addEventListener('close', async (event) => {
+//         await client.connect();
+//         const myCol = await client.db('express').collection("chatroomName");
+//         //Room holds the value of the ws name that was created and added to database
+//         let doc = await myCol.findOne({chatroom:room})
+//         await myCol.findOneAndDelete(doc)
+//     })
+
+// })
 // let mimeLookup = {
 //     ".html" : "text/html",
 //     ".jpg": "image/jpeg",

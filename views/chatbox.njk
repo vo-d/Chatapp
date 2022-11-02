@@ -29,15 +29,16 @@ Brody Oberdorfer - 3135170
         // Robin part
         //create new websocket with the name sent from the user after the "chatroom", and put it in database
         // getting the name of the room from title
-        let roomName = document.getElementById('title').text
         
-        fetch('/roomName', {
+        // Fetch request to send the name of the room to server
+        let roomName = document.getElementById('title').text
+        {# fetch('/roomName', {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: roomName
-            }) 
+            })  #}
 
         
 
