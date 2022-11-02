@@ -58,6 +58,14 @@ async function check_add_chatroomName(chatroomName, req, res){
     }
 }
 
+async function closeWss(room) {
+    await client.connect();
+    const myCol = await client.db('express').collection("chatroomName");
+    //Room holds the value of the ws name that was created and added to database
+    let doc = await myCol.findOne({chatroom:room})
+    await myCol.findOneAndDelete(doc)
+}
+
 const wsInstance = expressWs(app)
 
 let env = nunjuck.configure("views", {
@@ -121,11 +129,9 @@ app.post('/roomName', (req, res)=>{
 
 })
 
-app.ws(`/chatroom/:name`, async (ws, req)=>{
+app.ws(`/chatroom/1`, async (ws, req)=>{
     //get websocket server
-    let room = req.params.name
-    console.log("r",room)
-    const aWss = wsInstance.getWss(`/chatroom/${room}`);
+    const aWss = wsInstance.getWss(`/chatroom/1`);
     // when websocket server receive data
     ws.on("message", (msg)=>{
         // send data back to every client
@@ -133,15 +139,22 @@ app.ws(`/chatroom/:name`, async (ws, req)=>{
             client.send(msg)
         })
     })
-
     // closing the websocket and deleting the room from database
     ws.addEventListener('close', async (event) => {
+
+        // erase the chatroomName only when all client are down
+        if(aWss.clients.size === 0){
+            closeWss(room);
+        }
+    })
+    
+
+    /* ws.addEventListener('close', async (event) => {
         await client.connect();
         const myCol = await client.db('express').collection("chatroomName");
         //Room holds the value of the ws name that was created and added to database
         let doc = await myCol.findOne({chatroom:room})
-        console.log(doc)
-        await myCol.findOneAndDelete({chatroom:room})
+        await myCol.findOneAndDelete(doc)
     })
 
 })
