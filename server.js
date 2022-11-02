@@ -108,75 +108,74 @@ app.post("/formhandler2", (req, res)=>{
 
 })
 
-
+let roomName = ''
 app.post('/roomName', (req, res)=>{
     // Name of the room that user requested
-    let room = Object.keys(req.body)[0];
-    app.ws(`/chatroom/${room}`, async (ws, req)=>{
-        //get websocket server
-        const aWss = wsInstance.getWss(`/chatroom/${room}`);
-        // when websocket server receive data
-        ws.on("message", (msg)=>{
-            // send data back to every client
-            aWss.clients.forEach((client)=>{
-                client.send(msg)
-            })
-        })
+     roomName = Object.keys(req.body)[0];
 
-        // closing the websocket and deleting the room from database
-        ws.addEventListener('close', async (event) => {
-            await client.connect();
-            const myCol = await client.db('express').collection("chatroomName");
-            //Room holds the value of the ws name that was created and added to database
-            let doc = await myCol.findOne({chatroom:room})
-            await myCol.findOneAndDelete(doc)
-        })
-    
-    })
-    
 })
 
-
-let mimeLookup = {
-    ".html" : "text/html",
-    ".jpg": "image/jpeg",
-    ".js": "application/javascript",
-    ".png" : "image/png"
-}
-
-app.post("/chatroom/fileUpload",(req, res)=>{
-    let response = "";
-    let form = new multiparty.Form({autoFields:true})
-    form.on('part', (part)=>{
-        
-        let partName = part.filename
-        let part_ext = path.extname(partName)
-        let partType = mimeLookup[part_ext]
-        if(!partType){
-            part.resume();
-            response = "This file type is not supported"
-            return
-        }
-        if (part.name !== "filename"){
-            part.resume();
-            return
-        }
-        // if(part.byteCount > 3000000){
-        //     part.resume();
-        //     response = "This file is too large"
-        //     return
-        // }
-
-        part.pipe(fs.createWriteStream(path.join('./public' , part.filename)))
-
-        
-        response = `file with name ${part.filename} saved`
+app.ws(`/chatroom/1`, async (ws, req)=>{
+    //get websocket server
+    const aWss = wsInstance.getWss(`/chatroom/1`);
+    // when websocket server receive data
+    ws.on("message", (msg)=>{
+        // send data back to every client
+        aWss.clients.forEach((client)=>{
+            client.send(msg)
+        })
     })
-    form.on("close", ()=>{
-        res.send(response)
+
+    // closing the websocket and deleting the room from database
+    ws.addEventListener('close', async (event) => {
+        await client.connect();
+        const myCol = await client.db('express').collection("chatroomName");
+        //Room holds the value of the ws name that was created and added to database
+        let doc = await myCol.findOne({chatroom:room})
+        await myCol.findOneAndDelete(doc)
     })
-    form.parse(req)
+
 })
+// let mimeLookup = {
+//     ".html" : "text/html",
+//     ".jpg": "image/jpeg",
+//     ".js": "application/javascript",
+//     ".png" : "image/png"
+// }
+
+// app.post("/chatroom/fileUpload",(req, res)=>{
+//     let response = "";
+//     let form = new multiparty.Form({autoFields:true})
+//     form.on('part', (part)=>{
+        
+//         let partName = part.filename
+//         let part_ext = path.extname(partName)
+//         let partType = mimeLookup[part_ext]
+//         if(!partType){
+//             part.resume();
+//             response = "This file type is not supported"
+//             return
+//         }
+//         if (part.name !== "filename"){
+//             part.resume();
+//             return
+//         }
+//         // if(part.byteCount > 3000000){
+//         //     part.resume();
+//         //     response = "This file is too large"
+//         //     return
+//         // }
+
+//         part.pipe(fs.createWriteStream(path.join('./public' , part.filename)))
+
+        
+//         response = `file with name ${part.filename} saved`
+//     })
+//     form.on("close", ()=>{
+//         res.send(response)
+//     })
+//     form.parse(req)
+// })
 
 app.use((req,res) =>{
     res.status(404).sendFile(__dirname + "/views/404.html")
