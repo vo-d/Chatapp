@@ -46,11 +46,33 @@
             const roomRequested = fomrProps.roomName;
             const jsonString = JSON.stringify(fomrProps)
             
+            /*
+            // Fetch Request
+            fetch("/createRoom", {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonString
+            })
+            .then(res => res.json())
+            .then((data) =>{
+                let link = document.getElementById("chatRoomLink")
+                if(data.message === 'exsists'){
+                    link.innerHTML = `Chatroom with name ${roomRequested} already exsists. Press to enter the chat room`;
+                    link.setAttribute("href", `http://localhost:5000/chatroom/${data.roomName}`)
+                }else{
+                    link.innerHTML = "Press to enter the chat room"
+                    link.setAttribute("href", `http://localhost:5000/chatroom/${data.roomName}`)
+                }
+            })
+            */
+
             // Create XMLhttp request
             let request = new XMLHttpRequest();
             request.open("POST", "/createRoom")
             request.setRequestHeader('Content-Type', 'application/json')
-            request.send(jsonString)
+            request.send(jsonString) 
 
             // receive message back from the server
             request.addEventListener("load", ()=>{
