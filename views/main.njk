@@ -30,22 +30,12 @@
         var form1 = document.getElementById("form1");
         var form2 = document.getElementById("form2");
         function clickMe1() {
-            if (form1.classList.contains("show")){
-                document.getElementById("chatRoomLink").innerText = ""
-            }
             form1.classList.toggle("hide");
             form1.classList.toggle("show");
         }
         function clickMe2() {
             form2.classList.toggle("hide");
-                form2.classList.toggle("show");
-            form2.onclick() = ()=>{
-                
-                if (form1.classList.contains("show")){
-                document.getElementById("chatRoomLink").innerText = ""
-            }
-            }
-            
+            form2.classList.toggle("show");     
         }
 
         // This form is to create a new chatroom
@@ -145,6 +135,10 @@
                     link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
                 }else{
                     link.innerHTML = "The chatroom doesn't exist"
+                    let myTimeOut = setTimeout(() => {
+                        link.innerHTML = ``;
+                        link.setAttribute("href", ``)
+                    },5000)
                 }
         })
     }
