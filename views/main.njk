@@ -30,12 +30,22 @@
         var form1 = document.getElementById("form1");
         var form2 = document.getElementById("form2");
         function clickMe1() {
+            if (form1.classList.contains("show")){
+                document.getElementById("chatRoomLink").innerText = ""
+            }
             form1.classList.toggle("hide");
             form1.classList.toggle("show");
         }
         function clickMe2() {
             form2.classList.toggle("hide");
-            form2.classList.toggle("show");
+                form2.classList.toggle("show");
+            form2.onclick() = ()=>{
+                
+                if (form1.classList.contains("show")){
+                document.getElementById("chatRoomLink").innerText = ""
+            }
+            }
+            
         }
 
         // This form is to create a new chatroom
@@ -84,12 +94,29 @@
                 if(response.message === 'exsists'){
                     link.innerHTML = `Chatroom with name ${roomRequested} already exsists. Press to enter the chat room`;
                     link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
+                    
+                   
+  
                 }else{
                     link.innerHTML = "Press to enter the chat room"
                     link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
-                }
-                
 
+                    let myTimeOut = setTimeout(() => {
+                        link.innerHTML = ``;
+                        link.setAttribute("href", ``)
+
+                        let object = {deleteChatroom : response.roomName}
+                        let jsonString = JSON.stringify(object);
+
+                        let request = new XMLHttpRequest();
+                        request.open("POST", "/deleteChatroom")
+                        request.setRequestHeader('Content-Type', 'application/json')
+                        request.send(jsonString)
+                    },5000)
+                    link.onclick = () =>{
+                        clearTimeout(myTimeOut)
+                    }
+                }
                 
             })
         }
@@ -102,10 +129,25 @@
             const jsonString = JSON.stringify(fomrProps)
 
             let request = new XMLHttpRequest();
-            request.open("POST", "/createRoom")
+            request.open("POST", "/joinRoom")
             request.setRequestHeader('Content-Type', 'application/json')
             request.send(jsonString)
-        }
+
+            // receive message back from the server
+            request.addEventListener("load", ()=>{
+                let response = JSON.parse(request.responseText);
+                let link = document.getElementById("chatRoomLink")
+
+                // Brody code
+                //if else to send room name to the server side when not available, and throw error if available in the database
+                if(response.message === 'exsists'){
+                    link.innerHTML = `Press to enter the chat room`;
+                    link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
+                }else{
+                    link.innerHTML = "The chatroom doesn't exist"
+                }
+        })
+    }
     </script>
 </body>
 {% include "footer.njk" %}

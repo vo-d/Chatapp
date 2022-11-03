@@ -59,11 +59,25 @@ async function check_add_chatroomName(chatroomName, req, res){
     }
 }
 
-async function closeWss(room) {
+async function check_chatroomName(chatroomName, req, res){
+    await client.connect();
+    const myCol = await client.db('express').collection("chatroomName");
+    let doc = await myCol.findOne({chatroom:chatroomName})
+    if(doc === null){
+        req.body.message = true;
+        res.status(200).send(req.body)
+    }else{
+        console.log("Chatroom already exsists")
+        req.body.message = "exsists"
+        res.send(req.body)
+    }
+}
+
+async function closeWss(chatroomName) {
     await client.connect();
     const myCol = await client.db('express').collection("chatroomName");
     //Room holds the value of the ws name that was created and added to database
-    let doc = await myCol.findOne({chatroom:room})
+    let doc = await myCol.findOne({chatroom:chatroomName})
     await myCol.findOneAndDelete(doc)
 }
 
@@ -114,13 +128,18 @@ app.get("/chatroom/:name", async (req, res)=>{
 
 // handle the post request of createRoom, and send data back to the server side
 app.post("/createRoom", async (req, res)=>{
-    let user = req.body.user;
     let roomName = req.body.roomName;
     await check_add_chatroomName(roomName, req, res);
 })
 
-app.post("/formhandler2", (req, res)=>{
+app.post("/joinRoom", async (req, res)=>{
+    let roomName = req.body.roomName;
+    await check_chatroomName(roomName, req, res);
+})
 
+app.post("/deleteChatroom", async (req, res)=>{
+    let roomName = req.body.deleteChatroom;
+    await closeWss(roomName);
 })
 
 // Catching fetch request for the room name
@@ -135,6 +154,7 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
     let {room} = req.params;
     //get websocket server
     const aWss = wsInstance.getWss(`/chatroom/${room}`);
+    
     // when websocket server receive data
     ws.on("message", (msg)=>{
         // send data back to every client
@@ -152,15 +172,7 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
     })
 })
 
-//      ws.addEventListener('close', async (event) => {
-//         await client.connect();
-//         const myCol = await client.db('express').collection("chatroomName");
-//         //Room holds the value of the ws name that was created and added to database
-//         let doc = await myCol.findOne({chatroom:room})
-//         await myCol.findOneAndDelete(doc)
-//     })
 
-// })
 // let mimeLookup = {
 //     ".html" : "text/html",
 //     ".jpg": "image/jpeg",
