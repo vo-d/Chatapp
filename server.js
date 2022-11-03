@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended:true}))
 //put our mongodb uri here
 const mongoUri1 = "mongodb://localhost:27017";
 const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
-const client = new mongodb.MongoClient(mongoUri1);
+const client = new mongodb.MongoClient(mongoUri);
 
 //For now we are using this function. However we are goona bring the user functionality after tyhe mid term
 async function check_add_name(username){
