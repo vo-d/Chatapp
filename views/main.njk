@@ -14,7 +14,7 @@
         <input type="text" name="user" id="user_id"><br>
 
         <label for="input">Create Room Name</label>
-        <input type="text" name="roomName" id="createInput">
+        <input type="text" name="roomName" id="createInput"> 
         <input type="submit" value = "Submit">
     </form>
 
@@ -84,9 +84,7 @@
                 if(response.message === 'exsists'){
                     link.innerHTML = `Chatroom with name ${roomRequested} already exsists. Press to enter the chat room`;
                     link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
-                    
-                   
-  
+
                 }else{
                     link.innerHTML = "Press to enter the chat room"
                     link.setAttribute("href", `http://localhost:5000/chatroom/${response.roomName}`)
@@ -155,6 +153,4 @@
     .show {
         display: block;
     }
-
-    
 </style>

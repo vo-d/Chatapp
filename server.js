@@ -73,7 +73,7 @@ async function check_chatroomName(chatroomName, req, res){
     }
 }
 
-async function closeWss(chatroomName) {
+async function delete_Chatroom(chatroomName) {
     await client.connect();
     const myCol = await client.db('express').collection("chatroomName");
     //Room holds the value of the ws name that was created and added to database
@@ -139,7 +139,7 @@ app.post("/joinRoom", async (req, res)=>{
 
 app.post("/deleteChatroom", async (req, res)=>{
     let roomName = req.body.deleteChatroom;
-    await closeWss(roomName);
+    await delete_Chatroom(roomName);
 })
 
 // Catching fetch request for the room name
@@ -167,7 +167,7 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
 
         // erase the chatroomName only when all client are down
         if(aWss.clients.size === 0){
-            closeWss(room);
+            delete_Chatroom(room);
         }
     })
 })
