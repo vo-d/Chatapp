@@ -1,4 +1,5 @@
 ## collection that we need to create
 
-1. name of room collection (contain only room name) - Brody
-2. file collection (file, room name that contain the file) - Robin
+1. need to do client side mongoose validation 
+2. use validation to create method for authentication
+3. open and close chatbox database
