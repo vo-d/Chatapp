@@ -10,6 +10,8 @@ const nunjuck = require('nunjucks')
 const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 const serveIndex = require('serve-index')
+const session = require('express-session')
+const {seedUser} = require('./user_models.js')
 
 const app = express();
 const port = 5000;
@@ -22,6 +24,7 @@ app.use(express.urlencoded({extended:true}))
 const mongoUri1 = "mongodb://localhost:27017";
 const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(mongoUri);
+seedUser(mongoUri)
 
 //For now we are using this function. However we are goona bring the user functionality after tyhe mid term
 async function check_add_name(username){
@@ -91,10 +94,12 @@ let env = nunjuck.configure("views", {
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(session({
+    secret: "My super secret"
+}))
 
-app.get("/", (req, res)=>{
-    res.status(200).render("main.njk", {title: "main"})
-})
+const user_routes = require('./routes/user_route.js');
+app.use("/user", user_routes)
 
 app.get("/credit", (req, res)=>{
     let contributorList = require(path.resolve(__dirname + "/views/contributor.json"))

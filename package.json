@@ -10,10 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "express-ws": "^5.0.2",
     "mongodb": "^4.11.0",
+    "mongoose": "^6.8.0",
     "multiparty": "^4.2.3",
     "nunjucks": "^3.2.3",
+    "pbkdf2-password": "^1.2.1",
     "serve-index": "^1.9.1"
   },
   "devDependencies": {

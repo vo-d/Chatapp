@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    {% include "head.njk" %}
-<body>
+ {% extends "mainLayout.njk" %}
+{%block mainbody %}
+
     <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
     
     <button id="createRoom" onclick ="clickMe1()">Create Room</button>
@@ -141,9 +140,7 @@
         })
     }
     </script>
-</body>
-{% include "footer.njk" %}
-</html>
+
 
 <style>
     .hide {
@@ -154,3 +151,5 @@
         display: block;
     }
 </style>
+
+{% endblock mainbody %}
