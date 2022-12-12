@@ -178,46 +178,6 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
 })
 
 
-// let mimeLookup = {
-//     ".html" : "text/html",
-//     ".jpg": "image/jpeg",
-//     ".js": "application/javascript",
-//     ".png" : "image/png"
-// }
-
-// app.post("/chatroom/fileUpload",(req, res)=>{
-//     let response = "";
-//     let form = new multiparty.Form({autoFields:true})
-//     form.on('part', (part)=>{
-        
-//         let partName = part.filename
-//         let part_ext = path.extname(partName)
-//         let partType = mimeLookup[part_ext]
-//         if(!partType){
-//             part.resume();
-//             response = "This file type is not supported"
-//             return
-//         }
-//         if (part.name !== "filename"){
-//             part.resume();
-//             return
-//         }
-//         // if(part.byteCount > 3000000){
-//         //     part.resume();
-//         //     response = "This file is too large"
-//         //     return
-//         // }
-
-//         part.pipe(fs.createWriteStream(path.join('./public' , part.filename)))
-
-        
-//         response = `file with name ${part.filename} saved`
-//     })
-//     form.on("close", ()=>{
-//         res.send(response)
-//     })
-//     form.parse(req)
-// })
 
 app.use((req,res) =>{
     res.status(404).sendFile(__dirname + "/views/404.html")
