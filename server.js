@@ -84,6 +84,7 @@ async function delete_Chatroom(chatroomName) {
     await myCol.findOneAndDelete(doc)
 }
 
+// Declare wsInstance
 const wsInstance = expressWs(app)
 
 let env = nunjuck.configure("views", {
@@ -98,6 +99,7 @@ app.use(session({
     secret: "My super secret"
 }))
 
+//Set up router
 const user_routes = require('./routes/user_route.js');
 app.use("/user", user_routes)
 
