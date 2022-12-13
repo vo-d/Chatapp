@@ -11,7 +11,7 @@ const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 const serveIndex = require('serve-index')
 const session = require('express-session')
-const {seedUser} = require('./user_models.js')
+const {seedUser} = require('./models/user_models.js')
 
 const app = express();
 const port = 5000;
@@ -24,26 +24,6 @@ app.use(express.urlencoded({extended:true}))
 const mongoUri1 = "mongodb://localhost:27017";
 const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(mongoUri);
-seedUser(mongoUri)
-
-//For now we are using this function. However we are goona bring the user functionality after tyhe mid term
-async function check_add_name(username){
-    await client.connect();
-    const myCol = await client.db('express').collection("users");
-    const doc = await myCol.findOne({user:username})
-    if(doc === null){
-        let newUser = {user:username}
-        let result = await myCol.insertOne(newUser)
-        console.log("User",result)
-        req.body.message = true;
-        res.status(200).send(req.body)
-    }
-    else{
-        console.log("User already exsists")
-        req.body.message = "User exsists"
-        res.send(req.body)
-    }
-}
 
 async function check_add_chatroomName(chatroomName, req, res){
     await client.connect();

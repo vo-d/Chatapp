@@ -26,16 +26,9 @@
     <a id="chatRoomLink"></a>
 
     <script>
-        var form1 = document.getElementById("form1");
-        var form2 = document.getElementById("form2");
-        function clickMe1() {
-            form1.classList.toggle("hide");
-            form1.classList.toggle("show");
-        }
-        function clickMe2() {
-            form2.classList.toggle("hide");
-            form2.classList.toggle("show");     
-        }
+        let form1 = document.getElementById("form1");
+        let form2 = document.getElementById("form2");
+
 
         // This form is to create a new chatroom
         form1.onsubmit = (e)=>{
@@ -45,27 +38,6 @@
             const roomRequested = fomrProps.roomName;
             const jsonString = JSON.stringify(fomrProps)
             
-            /*
-            // Fetch Request
-            fetch("/createRoom", {
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonString
-            })
-            .then(res => res.json())
-            .then((data) =>{
-                let link = document.getElementById("chatRoomLink")
-                if(data.message === 'exsists'){
-                    link.innerHTML = `Chatroom with name ${roomRequested} already exsists. Press to enter the chat room`;
-                    link.setAttribute("href", `http://localhost:5000/chatroom/${data.roomName}`)
-                }else{
-                    link.innerHTML = "Press to enter the chat room"
-                    link.setAttribute("href", `http://localhost:5000/chatroom/${data.roomName}`)
-                }
-            })
-            */
 
             // Create XMLhttp request
             let request = new XMLHttpRequest();
