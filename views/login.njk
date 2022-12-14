@@ -8,21 +8,23 @@
 {#        {{forms.field("password")}}#}
 {#        {{forms.submit("Login")}}#}
 {#    </form>#}
-    <h1>Login if you have an account</h1>
-    <form action="/user/login" method="post" id="form1" >
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh">
+        <h1>Login if you have an account</h1>
+        <form action="/user/login" method="post" id="form1" style="display: flex; flex-direction: column; align-items: center;">
+            <div>
+                <label for="user">Username: </label>
+                <input type="text" name="user" id="user_id"><br>
+                <br>
+                <label for="password">Password:  </label>
+                <input type="text" name="password" id="password">
+                <br><br>
+            </div>
 
-        <label for="user">Username: </label>
-        <input type="text" name="user" id="user_id"><br>
-        <br>
-        <label for="password">Password:  </label>
-        <input type="text" name="password" id="password">
-        <br><br>
-        <input type="submit" value = "Submit">
-
-    </form>
-
-
-
+            <input type="submit" value = "Submit">
+    
+        </form>    
+    </div>
+    
 {% endblock mainbody %}
 
 <script>

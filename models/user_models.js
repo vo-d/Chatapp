@@ -81,25 +81,6 @@ async function seedUser(uri, username, password, isNewUser) {
 
 }
 
-//For now we are using this function. However we are goona bring the user functionality after tyhe mid term
-async function check_add_name(username){
-    await client.connect();
-    const myCol = await client.db('express').collection("users");
-    const doc = await myCol.findOne({user:username})
-    if(doc === null){
-        let newUser = {user:username}
-        let result = await myCol.insertOne(newUser)
-        console.log("User",result)
-        req.body.message = true;
-        res.status(200).send(req.body)
-    }
-    else{
-        console.log("User already exsists")
-        req.body.message = "User exsists"
-        res.send(req.body)
-    }
-}
-
 module.exports ={
     User: User,
     seedUser: seedUser

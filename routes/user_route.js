@@ -49,6 +49,7 @@ router.post('/createUser', async(req, res)=>{
     req.model.findUser(req.body.user, async (user)=>{
         if(user){
             console.log("username existed")
+            res
         }
         else{
             await seedUser(mongoUri, req.body.user, req.body.password, true).then(result=>console.log(result))

@@ -29,8 +29,15 @@
 
         const Button = 'react-bootstrap'
         function Page(){
+            const styles = {
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+              }
             return (
-                <div>
+                <div style={styles}>
                     <h1>Welcome to Project</h1>
                     <div id="button" style={{display:'flex', gap:'20px'}}>
                         <NavItem href="/user/login" name="Log in" />
@@ -46,4 +53,10 @@
         root.render(<Page/>)
     </script>
 </body>
+<footer style="position: fixed; left: 0; bottom: 0; width: 100%; height: 2em; background-color: cyan; text-align: center;vertical-align: middle;">
+    <div style= "position: relative; top: 0.4em; display: flex;  justify-content: space-around;">
+        <a href="http://localhost:5000/terms&conditions">Terms & Conditions</a>
+        <a href="http://localhost:5000/credit">Credit</a>
+    </div>
+</footer>
 </html>
