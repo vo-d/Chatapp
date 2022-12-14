@@ -5,6 +5,10 @@ const router = express.Router();
 router.use((req, res, next)=>{
     next();
 })
+router.get("/",(req, res)=>{
+    const welcomePage = path.resolve(__dirname + "/../views/welcomePage.html")
+    res.status(200).sendFile(welcomePage);
+})
 
 router.get("/credit", (req, res)=>{
     let contributorList = require(path.resolve(__dirname + "/../views/contributor.json"))

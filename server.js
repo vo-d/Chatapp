@@ -2,18 +2,13 @@
 Dai Dai Vo - 3129620
 Robinpreet Singh - 3127986
 Brody Oberdorfer - 3135170 */
-// const multiparty = require('multiparty')
 const express = require('express');
-const path = require("path")
 const nunjuck = require('nunjucks')
-// const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 const serveIndex = require('serve-index')
 const session = require('express-session')
-
-// const {seedUser} = require('./models/user_models.js')
-const {func} = require("./models/chatroom_models")
-
+const {delete_Chatroom} = require("./models/chatroom_models")
+const {Session} = require('./views/credentials')
 
 const app = express();
 const port = 5000;
@@ -31,17 +26,11 @@ let env = nunjuck.configure("views", {
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(session({
-    secret: "My super secret"
+    secret: Session.secret
 }))
 
 //Set up router
 const user_routes = require('./routes/user_route.js');
-
-app.get("/",(req, res)=>{
-    const welcomePage = path.resolve(__dirname + "/views/welcomePage.html")
-    res.status(200).sendFile(welcomePage);
-})
-
 app.use("/user", user_routes)
 
 const chat_routes = require('./routes/chatroom_routes')
@@ -70,11 +59,10 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
 
         // erase the chatroomName only when all client are down
         if(aWss.clients.size === 0){
-            func.delete_Chatroom(room);
+            await delete_Chatroom(room);
         }
     })
 })
-
 
 //400 error
 app.use((req,res) =>{

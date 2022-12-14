@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 const hash = require("pbkdf2-password")();
-const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoUri).catch(console.log);
 
 const userSchema = new mongoose.Schema({
     user:{
@@ -58,7 +56,6 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('userinfo', userSchema)
 
 async function seedUser(uri, username, password, isNewUser) {
-
     let newUser = {}
     if(isNewUser){
         newUser = new User({
@@ -75,8 +72,6 @@ async function seedUser(uri, username, password, isNewUser) {
     })
 
     await mongoose.connect(uri).catch(console.log);
-    // await mongoose.connection.db.dropCollection("userinfos")
-    // console.log("collection dropped")
 
     return result =  await newUser.save()
 

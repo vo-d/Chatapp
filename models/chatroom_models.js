@@ -1,12 +1,13 @@
 //put our mongodb uri here
 const mongodb = require("mongodb");
 // const mongoUri1 = "mongodb://localhost:27017";
-const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
+const {MONGODB} = require('../views/credentials')
+const mongoUri = `mongodb+srv://${MONGODB.dai.user}:${MONGODB.dai.login}@${MONGODB.dai.cluster}/?retryWrites=true&w=majority`;
 const client = new mongodb.MongoClient(mongoUri);
+
 
 async function serverSideSchemaChatroom(){
     await client.connect();
-
     const db = client.db('express');
     await db.createCollection('chatroomName', {
         validator:{

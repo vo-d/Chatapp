@@ -1,9 +1,9 @@
 const express = require("express");
+const mongodb = require('mongodb');
 const router = express.Router();
 const {check_chatroomName, check_add_chatroomName, delete_Chatroom, serverSideSchemaChatroom} = require('../models/chatroom_models');
-const mongodb = require("mongodb");
-const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
-const client = new mongodb.MongoClient(mongoUri);
+const {MONGODB} = require('../views/credentials')
+const mongoUri = `mongodb+srv://${MONGODB.dai.user}:${MONGODB.dai.login}@${MONGODB.dai.cluster}/?retryWrites=true&w=majority`;const client = new mongodb.MongoClient(mongoUri);
 
 router.use((req, res, next)=>{
     next();
