@@ -4,14 +4,13 @@ Robinpreet Singh - 3127986
 Brody Oberdorfer - 3135170 */
 const multiparty = require('multiparty')
 const express = require('express');
-const fs = require("fs");
+
 const path = require("path")
 const nunjuck = require('nunjucks')
 const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 const serveIndex = require('serve-index')
 const session = require('express-session')
-const {seedUser} = require('./models/user_models.js')
 
 const app = express();
 const port = 5000;

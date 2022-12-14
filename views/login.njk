@@ -9,7 +9,7 @@
 {#        {{forms.submit("Login")}}#}
 {#    </form>#}
     <h1>Login if you have an account</h1>
-    <form action="/user/userLogin" method="post" id="form1" >
+    <form action="/user/login" method="post" id="form1" >
 
         <label for="user">Username: </label>
         <input type="text" name="user" id="user_id"><br>
@@ -21,35 +21,11 @@
 
     </form>
 
-    <h1>New user. Create new account</h1>
-    <button id="newAccount">Click here to create new account</button>
 
-    <div id="newUserAccount" class="hide">
-
-        <form action="/user/createUser" method="post" id="form2" >
-
-            <label for="newUser">Username: </label>
-            <input type="text" name="user" id="new_user_id"><br>
-            <br>
-            <label for="newPassword">Password:  </label>
-            <input type="text" name="password" id="new_password">
-            <br><br>
-            <input type="submit" value = "Submit">
-
-        </form>
-    </div>
 
 {% endblock mainbody %}
 
 <script>
-    function clickMe1() {
-        form1.classList.toggle("hide");
-        form1.classList.toggle("show");
-    }
-    function clickMe2() {
-        form2.classList.toggle("hide");
-        form2.classList.toggle("show");
-    }
 
         let form1 = document.getElementById("form1");
 
@@ -74,23 +50,5 @@
 
         let form2 = document.getElementById("form2");
 
-        // This form is to submit login request
-        form2.onsubmit = (e)=>{
-            e.preventDefault()
-            const formData = new FormData(e.target)
-            const formProps = Object.fromEntries(formData)
-            const jsonString = JSON.stringify(formProps)
-
-
-            // Fetch Request
-            fetch("/user/createUser", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonString
-            })
-                .then(res => res.json())
-        }
-
+        
 </script>

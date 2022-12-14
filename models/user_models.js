@@ -37,6 +37,16 @@ const userSchema = new mongoose.Schema({
                     return callback(null)
                 }
             })
+        },
+        findUser(user, cb){
+            this.findOne({user:user}, (err, doc)=>{
+                if(doc){  
+                    cb(user);
+                }
+                else{
+                    cb(null);
+                }
+            })
         }
     }
 })

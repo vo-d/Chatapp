@@ -25,7 +25,11 @@ router.get('/login', (req, res)=>{
     res.render('../views/login.njk', {})
 })
 
-router.post('/userLogin', (req, res)=>{
+router.get('/register', (req, res)=>{
+    res.render('../views/register.njk', {})
+})
+
+router.post('/login', (req, res)=>{
     console.log("user ",req.body.user, "and password ", req.body.password )
     req.model.authentication(req.body.user, req.body.password, (user)=>{
         if(user){
@@ -43,8 +47,17 @@ router.post('/userLogin', (req, res)=>{
 
 router.post('/createUser', async(req, res)=>{
     console.log("New user username",req.body.user, "and password ", req.body.password )
-    await seedUser(mongoUri, req.body.user, req.body.password, true)
+    req.model.findUser(req.body.user, async (user)=>{
+        if(user){
+            console.log("username existed")
+        }
+        else{
+            console.log("valid username")
+            await seedUser(mongoUri, req.body.user, req.body.password, true)
         .then(result=>console.log(result))
+        }
+    })
+    
     res.redirect("/user/login");
 })
 
