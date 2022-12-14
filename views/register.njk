@@ -20,6 +20,8 @@
 
 {% endblock mainbody %}
 <script>
+    let form2 = document.getElementById("form2");
+
     // This form is to submit login request
     form2.onsubmit = (e)=>{
             e.preventDefault()
@@ -36,7 +38,7 @@
                 },
                 body: jsonString
             })
-                .then(res => res.json())
+            .then(res => res.json())
         }
 
 </script>

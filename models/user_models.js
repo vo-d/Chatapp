@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const hash = require("pbkdf2-password")();
+const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(mongoUri).catch(console.log);
 
 const userSchema = new mongoose.Schema({
     user:{
@@ -38,13 +40,15 @@ const userSchema = new mongoose.Schema({
                 }
             })
         },
-        findUser(user, cb){
+        findUser(user, callback){
             this.findOne({user:user}, (err, doc)=>{
                 if(doc){  
-                    cb(user);
+                    console.log('user found')
+                    return callback(user);
                 }
                 else{
-                    cb(null);
+                    console.log('user not found')
+                    return callback(null);
                 }
             })
         }

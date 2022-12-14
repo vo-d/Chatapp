@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {User, seedUser} = require('../models/user_models.js');
 const nunjucks = require('nunjucks')
-const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 
 router.use((req, res, next)=>{
     req.model = User;
@@ -52,9 +51,7 @@ router.post('/createUser', async(req, res)=>{
             console.log("username existed")
         }
         else{
-            console.log("valid username")
-            await seedUser(mongoUri, req.body.user, req.body.password, true)
-        .then(result=>console.log(result))
+            await seedUser(mongoUri, req.body.user, req.body.password, true).then(result=>console.log(result))
         }
     })
     
