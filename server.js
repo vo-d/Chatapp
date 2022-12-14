@@ -4,7 +4,6 @@ Robinpreet Singh - 3127986
 Brody Oberdorfer - 3135170 */
 const multiparty = require('multiparty')
 const express = require('express');
-
 const path = require("path")
 const nunjuck = require('nunjucks')
 const mongodb = require('mongodb')
@@ -16,7 +15,7 @@ const app = express();
 const port = 5000;
 
 app.use("/files", serveIndex(__dirname+"/views", {icons: true}))
-app.use('/files', express.static(__dirname+"/views"))
+app.use('/static', express.static(__dirname+"/views"))
 app.use(express.urlencoded({extended:true}))
 
 //put our mongodb uri here
