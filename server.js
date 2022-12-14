@@ -81,6 +81,12 @@ app.use(session({
 
 //Set up router
 const user_routes = require('./routes/user_route.js');
+
+app.get("/",(req, res)=>{
+    const welcomePage = path.resolve(__dirname + "/views/welcomePage.html")
+    res.status(200).sendFile(welcomePage);
+})
+
 app.use("/user", user_routes)
 
 app.get("/credit", (req, res)=>{

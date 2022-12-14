@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+    <div id="root"></div>
+    <!-- Load React. -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Load Babel -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+    <!-- Load React-bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
+    crossorigin
+    ></script>
+
+    <script type="text/jsx">
+        function NavItem(props){
+            return(
+                <button>
+                    <ReactBootstrap.Nav.Link href={props.href}>{props.name}</ReactBootstrap.Nav.Link>
+                </button>
+                )
+        }
+
+        const Button = 'react-bootstrap'
+        function Page(){
+            return (
+                <div>
+                    <h1>Welcome to Project</h1>
+                    <div id="button" style={{display:'flex', gap:'20px'}}>
+                        <NavItem href="/user/login" name="Log in" />
+                        <NavItem href="/user/login" name="Register" />
+                    </div>
+                    
+                </div>
+                
+            )
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById("root"))
+        root.render(<Page/>)
+    </script>
+</body>
+</html>
