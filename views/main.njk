@@ -29,6 +29,14 @@
         let form1 = document.getElementById("form1");
         let form2 = document.getElementById("form2");
 
+        function clickMe1() {
+            form1.classList.toggle("hide");
+            form1.classList.toggle("show");
+        }
+        function clickMe2() {
+            form2.classList.toggle("hide");
+            form2.classList.toggle("show");
+        }
 
         // This form is to create a new chatroom
         form1.onsubmit = (e)=>{

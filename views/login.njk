@@ -28,10 +28,10 @@
 
         <form action="/user/createUser" method="post" id="form2" >
 
-            <label for="newUser">Username: </label>
+            <label for="user">Username: </label>
             <input type="text" name="user" id="new_user_id"><br>
             <br>
-            <label for="newPassword">Password:  </label>
+            <label for="password">Password:  </label>
             <input type="text" name="password" id="new_password">
             <br><br>
             <input type="submit" value = "Submit">
@@ -42,16 +42,6 @@
 {% endblock mainbody %}
 
 <script>
-    function clickMe1() {
-        form1.classList.toggle("hide");
-        form1.classList.toggle("show");
-    }
-    function clickMe2() {
-        form2.classList.toggle("hide");
-        form2.classList.toggle("show");
-    }
-
-        let form1 = document.getElementById("form1");
 
         // This form is to submit login request
         form1.onsubmit = (e)=>{
@@ -94,3 +84,4 @@
         }
 
 </script>
+

@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('userinfo', userSchema)
 
 async function seedUser(uri, username, password, isNewUser) {
+
     let newUser = {}
     if(isNewUser){
         newUser = new User({
