@@ -1,0 +1,43 @@
+{% extends "./layout/mainLayout.njk" %}
+
+{% block mainbody %}
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh">
+        <h1>New user. Create new account</h1>
+        <form action="/user/createUser" method="post" id="form2" style="display: flex; flex-direction: column; align-items: center;">
+            <div>
+                <label for="newUser">Username: </label>
+                <input type="text" name="user" id="new_user_id"><br>
+                <br>
+                <label for="newPassword">Password:  </label>
+                <input type="text" name="password" id="new_password">
+                <br><br>
+            </div>
+            <input type="submit" value = "Submit">
+        </form>
+    </div>
+    <p id = 'announcement'></p>
+
+{% endblock mainbody %}
+<script>
+    let form2 = document.getElementById("form2");
+
+    // This form is to submit login request
+    form2.onsubmit = (e)=>{
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const formProps = Object.fromEntries(formData)
+            const jsonString = JSON.stringify(formProps)
+
+
+            // Fetch Request
+            fetch("/user/createUser", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonString
+            })
+            .then(res => res.json())
+        }
+
+</script>

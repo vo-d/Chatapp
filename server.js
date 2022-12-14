@@ -2,22 +2,24 @@
 Dai Dai Vo - 3129620
 Robinpreet Singh - 3127986
 Brody Oberdorfer - 3135170 */
-const multiparty = require('multiparty')
+// const multiparty = require('multiparty')
 const express = require('express');
-const fs = require("fs");
 const path = require("path")
 const nunjuck = require('nunjucks')
-const mongodb = require('mongodb')
+// const mongodb = require('mongodb')
 const expressWs = require("express-ws")
 const serveIndex = require('serve-index')
 const session = require('express-session')
-const {seedUser} = require('./models/user_models.js')
+
+// const {seedUser} = require('./models/user_models.js')
 const {func} = require("./models/chatroom_models")
+
+
 const app = express();
 const port = 5000;
 
 app.use("/files", serveIndex(__dirname+"/views", {icons: true}))
-app.use('/files', express.static(__dirname+"/views"))
+app.use('/', express.static(__dirname+"/views"))
 app.use(express.urlencoded({extended:true}))
 
 let env = nunjuck.configure("views", {
@@ -34,6 +36,12 @@ app.use(session({
 
 //Set up router
 const user_routes = require('./routes/user_route.js');
+
+app.get("/",(req, res)=>{
+    const welcomePage = path.resolve(__dirname + "/views/welcomePage.html")
+    res.status(200).sendFile(welcomePage);
+})
+
 app.use("/user", user_routes)
 
 const chat_routes = require('./routes/chatroom_routes')
@@ -67,9 +75,16 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
     })
 })
 
+
+//400 error
 app.use((req,res) =>{
     res.status(404).sendFile(__dirname + "/views/404.html")
     
+})
+
+//500 error
+app.use((err,req,res, next) =>{
+    res.status(500).sendFile(__dirname +"/views/500.html")
 })
 
 app.listen(port)

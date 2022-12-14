@@ -8,40 +8,27 @@
 {#        {{forms.field("password")}}#}
 {#        {{forms.submit("Login")}}#}
 {#    </form>#}
-    <h1>Login if you have an account</h1>
-    <form action="/user/userLogin" method="post" id="form1" >
-
-        <label for="user">Username: </label>
-        <input type="text" name="user" id="user_id"><br>
-        <br>
-        <label for="password">Password:  </label>
-        <input type="text" name="password" id="password">
-        <br><br>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh">
+        <h1>Login if you have an account</h1>
+        <form action="/user/login" method="post" id="form1" style="display: flex; flex-direction: column; align-items: center;">
+            <div>
+                <label for="user">Username: </label>
+                <input type="text" name="user" id="user_id"><br>
+                <br>
+                <label for="password">Password:  </label>
+                <input type="text" name="password" id="password">
+                <br><br>
+            </div>
         <input type="submit" value = "Submit">
-
-    </form>
-
-    <h1>New user. Create new account</h1>
-    <button id="newAccount">Click here to create new account</button>
-
-    <div id="newUserAccount" class="hide">
-
-        <form action="/user/createUser" method="post" id="form2" >
-
-            <label for="user">Username: </label>
-            <input type="text" name="user" id="new_user_id"><br>
-            <br>
-            <label for="password">Password:  </label>
-            <input type="text" name="password" id="new_password">
-            <br><br>
-            <input type="submit" value = "Submit">
-
         </form>
     </div>
-
+    
 {% endblock mainbody %}
 
 <script>
+
+
+        let form1 = document.getElementById("form1");
 
         // This form is to submit login request
         form1.onsubmit = (e)=>{
@@ -52,7 +39,7 @@
 
 
             // Fetch Request
-            fetch("/user/userLogin", {
+            fetch("/user/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,26 +49,31 @@
             .then(res => res.json())
         }
 
-        let form2 = document.getElementById("form2");
+{#<<<<<<< HEAD#}
+{#        let form2 = document.getElementById("form2");#}
 
-        // This form is to submit login request
-        form2.onsubmit = (e)=>{
-            e.preventDefault()
-            const formData = new FormData(e.target)
-            const formProps = Object.fromEntries(formData)
-            const jsonString = JSON.stringify(formProps)
+{#        // This form is to submit login request#}
+{#        form2.onsubmit = (e)=>{#}
+{#            e.preventDefault()#}
+{#            const formData = new FormData(e.target)#}
+{#            const formProps = Object.fromEntries(formData)#}
+{#            const jsonString = JSON.stringify(formProps)#}
 
 
-            // Fetch Request
-            fetch("/user/createUser", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonString
-            })
-                .then(res => res.json())
-        }
+{#            // Fetch Request#}
+{#            fetch("/user/createUser", {#}
+{#                method: 'POST',#}
+{#                headers: {#}
+{#                    'Content-Type': 'application/json'#}
+{#                },#}
+{#                body: jsonString#}
+{#            })#}
+{#                .then(res => res.json())#}
+{#        }#}
 
+{#</script>#}
+
+{#=======#}
+        
+        
 </script>
-

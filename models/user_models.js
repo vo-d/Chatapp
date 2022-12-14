@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const hash = require("pbkdf2-password")();
+const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(mongoUri).catch(console.log);
 
 const userSchema = new mongoose.Schema({
     user:{
@@ -37,6 +39,18 @@ const userSchema = new mongoose.Schema({
                     return callback(null)
                 }
             })
+        },
+        findUser(user, callback){
+            this.findOne({user:user}, (err, doc)=>{
+                if(doc){  
+                    console.log('user found')
+                    return callback(user);
+                }
+                else{
+                    console.log('user not found')
+                    return callback(null);
+                }
+            })
         }
     }
 })
@@ -66,25 +80,6 @@ async function seedUser(uri, username, password, isNewUser) {
 
     return result =  await newUser.save()
 
-}
-
-//For now we are using this function. However we are goona bring the user functionality after tyhe mid term
-async function check_add_name(username){
-    await client.connect();
-    const myCol = await client.db('express').collection("users");
-    const doc = await myCol.findOne({user:username})
-    if(doc === null){
-        let newUser = {user:username}
-        let result = await myCol.insertOne(newUser)
-        console.log("User",result)
-        req.body.message = true;
-        res.status(200).send(req.body)
-    }
-    else{
-        console.log("User already exsists")
-        req.body.message = "User exsists"
-        res.send(req.body)
-    }
 }
 
 module.exports ={

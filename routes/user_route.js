@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {User, seedUser} = require('../models/user_models.js');
 const nunjucks = require('nunjucks')
-const mongoUri = "mongodb+srv://dai:09022002@cluster0.esqge8e.mongodb.net/?retryWrites=true&w=majority";
 
 router.use((req, res, next)=>{
     req.model = User;
@@ -25,7 +24,11 @@ router.get('/login', (req, res)=>{
     res.render('../views/login.njk', {})
 })
 
-router.post('/userLogin', (req, res)=>{
+router.get('/register', (req, res)=>{
+    res.render('../views/register.njk', {})
+})
+
+router.post('/login', (req, res)=>{
     console.log("user ",req.body.user, "and password ", req.body.password )
     req.model.authentication(req.body.user, req.body.password, (user)=>{
         if(user){
@@ -43,8 +46,16 @@ router.post('/userLogin', (req, res)=>{
 
 router.post('/createUser', async(req, res)=>{
     console.log("New user username",req.body.user, "and password ", req.body.password )
-    await seedUser(mongoUri, req.body.user, req.body.password, true)
-        .then(result=>console.log(result))
+    req.model.findUser(req.body.user, async (user)=>{
+        if(user){
+            console.log("username existed")
+            res
+        }
+        else{
+            await seedUser(mongoUri, req.body.user, req.body.password, true).then(result=>console.log(result))
+        }
+    })
+    
     res.redirect("/user/login");
 })
 
