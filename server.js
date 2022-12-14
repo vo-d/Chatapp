@@ -15,7 +15,7 @@ const app = express();
 const port = 5000;
 
 app.use("/files", serveIndex(__dirname+"/views", {icons: true}))
-app.use('/static', express.static(__dirname+"/views"))
+app.use('/', express.static(__dirname+"/views"))
 app.use(express.urlencoded({extended:true}))
 
 //put our mongodb uri here
@@ -164,10 +164,15 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
 })
 
 
-
+//400 error
 app.use((req,res) =>{
     res.status(404).sendFile(__dirname + "/views/404.html")
     
+})
+
+//500 error
+app.use((err,req,res, next) =>{
+    res.status(500).sendFile(__dirname +"/views/500.html")
 })
 
 app.listen(port)
