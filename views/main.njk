@@ -1,28 +1,32 @@
  {% extends "./layout/mainLayout.njk" %}
 {%block mainbody %}
-
-    <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 1vh">
+        <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
     
-    <button id="createRoom" onclick ="clickMe1()">Create Room</button>
+        <button id="createRoom" onclick ="clickMe1()">Create Room</button>
+    
+        <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
 
-    <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
+        <form id="logout"  action="/user/logout" method= "post">
+            <input type="submit" value = "Log out">
+        </form>
+    
+        <form action="/createRoom" method="post" id="form1" class="hide">
+    
+            <label for="input">Create Room Name</label>
+            <input type="text" name="roomName" id="createInput"> 
+            <input type="submit" value = "Submit">
+        </form>
+    
+        <form action="/joinRoom" method="post" id="form2" class="hide">
+            <label for="input">Enter Room Link</label>
+            <input type="text" name="roomName" id="createInput">
+            <input type="submit" value = "Submit">
+        </form>
 
-    <form action="/createRoom" method="post" id="form1" class="hide">
-
-        <label for="input">Create Room Name</label>
-        <input type="text" name="roomName" id="createInput"> 
-        <input type="submit" value = "Submit">
-    </form>
-
-    <form action="/joinRoom" method="post" id="form2" class="hide">
-        <label for="input">Enter Room Link</label>
-        <input type="text" name="roomName" id="createInput">
-        <input type="submit" value = "Submit">
-    </form>
-    <form id="logout"  action="/user/logout" method= "post">
-        <input type="submit" value = "Log out">
-    </form>
-    <a id="chatRoomLink"></a>
+        <a id="chatRoomLink"></a>
+    </div>
+    
 
     <script>
         let form1 = document.getElementById("form1");

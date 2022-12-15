@@ -28,13 +28,18 @@ router.get("/chatroom/:name", async (req, res)=>{
 
 // handle the post request of createRoom, and send data back to the server side
 router.post("/createRoom", async (req, res)=>{
-    let roomName = req.body.roomName;
-    await check_add_chatroomName(roomName, req, res);
+    if(req.session.user){
+        let roomName = req.body.roomName;
+        await check_add_chatroomName(roomName, req, res);
+    }
+    
 })
 
 router.post("/joinRoom", async (req, res)=>{
-    let roomName = req.body.roomName;
-    await check_chatroomName(roomName, req, res);
+    if(req.session.user){
+        let roomName = req.body.roomName;
+        await check_chatroomName(roomName, req, res);
+    }
 })
 
 router.post("/deleteChatroom", async (req, res)=>{

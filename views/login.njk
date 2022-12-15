@@ -20,6 +20,7 @@
                 <br><br>
             </div>
         <input type="submit" value = "Submit">
+        <p id="notice"></p>
         </form>
     </div>
     
@@ -37,6 +38,7 @@
             const formProps = Object.fromEntries(formData)
             const jsonString = JSON.stringify(formProps)
 
+            const notice = document.getElementById("notice")
 
             // Fetch Request
             fetch("/user/login", {
@@ -46,7 +48,6 @@
                 },
                 body: jsonString
             })
-            .then(res => res.json())
         }
 
 
