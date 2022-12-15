@@ -29,6 +29,13 @@ router.get('/register', (req, res)=>{
     res.render('../views/register.njk', {})
 })
 
+
+router.post('/logout', (req, res)=>{
+    req.session.destroy();
+    console.log("logged out")
+    res.redirect("/user/login")
+})
+
 router.post('/login', (req, res)=>{
     console.log("user ",req.body.user, "and password ", req.body.password )
     req.model.authentication(req.body.user, req.body.password, (user)=>{
