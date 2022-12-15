@@ -14,9 +14,9 @@ Brody Oberdorfer - 3135170
 
     <form id="myForm">
         <!-- this is the message part -->
+        <label for ="message">Message:</label>
         <input type="text" name="message" value = "" id = "message">
-        <label for ="name">Your Name:</label>
-        <input type="text" name="name" value = "" id = "name">
+
         <input type="submit" value = "Send">
     </form>
     <form id="logout" method= "post" action="/user/logout">
@@ -58,7 +58,7 @@ Brody Oberdorfer - 3135170
             // convert iterable to an object
             const dataOject = Object.fromEntries(formdata);
             // create object of only name and message
-            const sendMessage = {name: dataOject.name, message: dataOject.message}
+            const sendMessage = {message: dataOject.message}
             // convert object to string
             const sendString = JSON.stringify(sendMessage)
             // send string data to websocket server
