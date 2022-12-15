@@ -9,9 +9,6 @@
 
     <form action="/createRoom" method="post" id="form1" class="hide">
 
-        <label for="user">Username</label>
-        <input type="text" name="user" id="user_id"><br>
-
         <label for="input">Create Room Name</label>
         <input type="text" name="roomName" id="createInput"> 
         <input type="submit" value = "Submit">
@@ -32,12 +29,21 @@
         let form2 = document.getElementById("form2");
 
         function clickMe1() {
-        form1.classList.toggle("hide");
-        form1.classList.toggle("show");
+            form1.classList.toggle("hide");
+            form1.classList.toggle("show");
+            if(form2.classList.contains("show")){
+                form2.classList.remove("show")
+                form2.classList.add("hide")
+            }
         }
         function clickMe2() {
+
             form2.classList.toggle("hide");
             form2.classList.toggle("show");
+            if(form1.classList.contains("show")){
+                form1.classList.remove("show")
+                form1.classList.add("hide")           
+            }
         }
 
         // This form is to create a new chatroom
