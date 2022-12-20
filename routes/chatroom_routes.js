@@ -34,14 +34,14 @@ router.post("/createRoom", async (req, res)=>{
     }
     
 })
-
+// handle post request for joinroom
 router.post("/joinRoom", async (req, res)=>{
     if(req.session.user){
         let roomName = req.body.roomName;
         await check_chatroomName(roomName, req, res);
     }
 })
-
+// delete chatroom
 router.post("/deleteChatroom", async (req, res)=>{
     let roomName = req.body.deleteChatroom;
     await delete_Chatroom(roomName);
