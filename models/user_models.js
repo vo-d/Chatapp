@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
         }
     }
 })
-
+// now create collection for users
 const User = mongoose.model('userinfo', userSchema)
 
 async function seedUser(uri, username, password, isNewUser) {
