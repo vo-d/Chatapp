@@ -5,7 +5,7 @@ const {MONGODB} = require('../views/credentials')
 const mongoUri = `mongodb+srv://${MONGODB.dai.user}:${MONGODB.dai.login}@${MONGODB.dai.cluster}/?retryWrites=true&w=majority`;
 const client = new mongodb.MongoClient(mongoUri);
 
-
+// create collection for chatroom wifh serverside validation
 async function serverSideSchemaChatroom(){
     await client.connect();
     const db = client.db('express');
@@ -27,7 +27,7 @@ async function serverSideSchemaChatroom(){
         }
     });
 }
-
+// check if chatroom exist and add chatroom to collection
 async function check_add_chatroomName(chatroomName, req, res){
     await client.connect();
     const myCol = await client.db('express').collection("chatroomName");
@@ -44,7 +44,7 @@ async function check_add_chatroomName(chatroomName, req, res){
         res.send(req.body)
     }
 }
-
+// check if chatroom name exist in collection
 async function check_chatroomName(chatroomName, req, res){
     await client.connect();
     const myCol = await client.db('express').collection("chatroomName");
@@ -58,7 +58,7 @@ async function check_chatroomName(chatroomName, req, res){
         res.send(req.body)
     }
 }
-
+// delete chatroom name
 async function delete_Chatroom(chatroomName) {
     await client.connect();
     const myCol = await client.db('express').collection("chatroomName");
