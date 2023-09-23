@@ -45,7 +45,10 @@ router.post('/login', (req, res)=>{
     })
 })
 
+
+
 router.post('/createUser', async(req, res)=>{
+    console.log(req.body.password)
     console.log("New user username",req.body.user, "and password ", req.body.password )
     req.model.findUser(req.body.user, async (user)=>{
         if(user){

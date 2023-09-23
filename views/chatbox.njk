@@ -20,6 +20,10 @@ Brody Oberdorfer - 3135170
         <input type="submit" value = "Send">
     </form>
 
+    <form id="logout" method= "post" action="/user/logout">
+        <input type="submit" value = "Log out">
+    </form>
+
     {# <form id="myForm1"  method='post' action="/chatroom/fileUpload" enctype="multipart/form-data">
         <input type="file" name="file" id="file">
         <input type="submit" value = "Send">
@@ -70,6 +74,7 @@ Brody Oberdorfer - 3135170
             // print out to the chatbox
             document.getElementById("chatbox").value += "\n" + info.name + " said: " + info.message
         })
+
     </script>
 </body>
 
