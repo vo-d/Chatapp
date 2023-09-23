@@ -1,13 +1,6 @@
 {% extends "./layout/mainLayout.njk" %}
 
 {% block mainbody %}
-{#    <form  id="form1" method="post">#}
-{#        {{forms.label("User", "user")}}#}
-{#        {{forms.field("user")}}#}
-{#        {{forms.label("Password", "password")}}#}
-{#        {{forms.field("password")}}#}
-{#        {{forms.submit("Login")}}#}
-{#    </form>#}
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh">
         <h1>Login if you have an account</h1>
         <form action="/user/login" method="post" id="form1" style="display: flex; flex-direction: column; align-items: center;">
@@ -20,6 +13,7 @@
                 <br><br>
             </div>
         <input type="submit" value = "Submit">
+        <p id="notice"></p>
         </form>
     </div>
     
@@ -37,6 +31,7 @@
             const formProps = Object.fromEntries(formData)
             const jsonString = JSON.stringify(formProps)
 
+            const notice = document.getElementById("notice")
 
             // Fetch Request
             fetch("/user/login", {
@@ -46,9 +41,9 @@
                 },
                 body: jsonString
             })
-            .then(res => res.json())
         }
 
+<<<<<<< HEAD
 /* {#<<<<<<< HEAD#}
 {#        let form2 = document.getElementById("form2");#}
 
@@ -73,6 +68,9 @@
 
 
 {#=======#} */
+=======
+
+>>>>>>> da76eea90d6596a9872502b63f1b535092b492c5
         
         
 </script>

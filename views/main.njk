@@ -1,12 +1,30 @@
  {% extends "./layout/mainLayout.njk" %}
 {%block mainbody %}
-
-    <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 1vh">
+        <h1 style="size: 40px; font-weight:bold; ">Chatroom</h1>
     
-    <button id="createRoom" onclick ="clickMe1()">Create Room</button>
+        <button id="createRoom" onclick ="clickMe1()">Create Room</button>
+    
+        <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
 
-    <button id="joinRoom" onclick ="clickMe2()">Join Room</button>
+        <form id="logout"  action="/user/logout" method= "post">
+            <input type="submit" value = "Log out">
+        </form>
+    
+        <form action="/createRoom" method="post" id="form1" class="hide">
+    
+            <label for="input">Create Room Name</label>
+            <input type="text" name="roomName" id="createInput"> 
+            <input type="submit" value = "Submit">
+        </form>
+    
+        <form action="/joinRoom" method="post" id="form2" class="hide">
+            <label for="input">Enter Room Link</label>
+            <input type="text" name="roomName" id="createInput">
+            <input type="submit" value = "Submit">
+        </form>
 
+<<<<<<< HEAD
     <form action="/createRoom" method="post" id="form1" class="hide">
 
         <label for="user">Username</label>
@@ -26,18 +44,32 @@
         <input type="submit" value = "Log out">
     </form>
     <a id="chatRoomLink"></a>
+=======
+        <a id="chatRoomLink"></a>
+    </div>
+    
+>>>>>>> da76eea90d6596a9872502b63f1b535092b492c5
 
     <script>
         let form1 = document.getElementById("form1");
         let form2 = document.getElementById("form2");
 
         function clickMe1() {
-        form1.classList.toggle("hide");
-        form1.classList.toggle("show");
+            form1.classList.toggle("hide");
+            form1.classList.toggle("show");
+            if(form2.classList.contains("show")){
+                form2.classList.remove("show")
+                form2.classList.add("hide")
+            }
         }
         function clickMe2() {
+
             form2.classList.toggle("hide");
             form2.classList.toggle("show");
+            if(form1.classList.contains("show")){
+                form1.classList.remove("show")
+                form1.classList.add("hide")           
+            }
         }
 
         // This form is to create a new chatroom

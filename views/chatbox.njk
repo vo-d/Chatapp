@@ -14,11 +14,12 @@ Brody Oberdorfer - 3135170
 
     <form id="myForm">
         <!-- this is the message part -->
+        <label for ="message">Message:</label>
         <input type="text" name="message" value = "" id = "message">
-        <label for ="name">Your Name:</label>
-        <input type="text" name="name" value = "" id = "name">
+
         <input type="submit" value = "Send">
     </form>
+<<<<<<< HEAD
 
     <form id="logout" method= "post" action="/user/logout">
         <input type="submit" value = "Log out">
@@ -28,6 +29,11 @@ Brody Oberdorfer - 3135170
         <input type="file" name="file" id="file">
         <input type="submit" value = "Send">
     </form> #}
+=======
+    <form id="logout" method= "post" action="/user/logout">
+        <input type="submit" value = "Log out">
+    </form>
+>>>>>>> da76eea90d6596a9872502b63f1b535092b492c5
     
     <script>
         // Robin part
@@ -36,15 +42,6 @@ Brody Oberdorfer - 3135170
         
         // Fetch request to send the name of the room to server
         let roomName = document.getElementById('title').text
-        // {# fetch('/roomName', {
-        //         method: 'POST', 
-        //         headers: {
-        //             'Content-Type': 'application/x-www-form-urlencoded'
-        //         },
-        //         body: roomName
-        //     })  #}
-
-        
 
         const ws = new WebSocket(`ws:localhost:5000/chatroom/${roomName}`)
     
@@ -60,7 +57,7 @@ Brody Oberdorfer - 3135170
             // convert iterable to an object
             const dataOject = Object.fromEntries(formdata);
             // create object of only name and message
-            const sendMessage = {name: dataOject.name, message: dataOject.message}
+            const sendMessage = {message: dataOject.message}
             // convert object to string
             const sendString = JSON.stringify(sendMessage)
             // send string data to websocket server

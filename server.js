@@ -50,8 +50,11 @@ app.ws(`/chatroom/:room`, async (ws, req)=>{
     // when websocket server receive data
     ws.on("message", (msg)=>{
         // send data back to every client
+        const data = JSON.parse(msg);
+        console.log(data)
+        const returnData = {name:req.session.user, message:data.message}
         aWss.clients.forEach((client)=>{
-            client.send(msg)
+            client.send(JSON.stringify(returnData))
         })
     })
     // closing the websocket and deleting the room from database
