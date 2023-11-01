@@ -3,10 +3,7 @@ const hash = require("pbkdf2-password")();
 const {MONGODB} = require('../views/credentials')
 const mongoUri = `mongodb+srv://${MONGODB.dai.user}:${MONGODB.dai.login}@${MONGODB.dai.cluster}/?retryWrites=true&w=majority`;
 
-<<<<<<< HEAD
-=======
 // create schema for client side validation for user collection
->>>>>>> da76eea90d6596a9872502b63f1b535092b492c5
 mongoose.connect(mongoUri)
 const userSchema = new mongoose.Schema({
     user:{
